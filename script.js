@@ -77,8 +77,7 @@ class App {
     this._getLocalStorage();
     form.addEventListener('submit', this._newproperty.bind(this));
     inputType.addEventListener('change', this._toggleElevationField);
-    containerpropertys.addEventListener('click', this._moveToPopup.bind(this));
-  }
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));  }
   _getPosition() {
     if (navigator.geolocation)
       navigator.geolocation.getCurrentPosition(
@@ -255,26 +254,24 @@ class App {
   }
 
   _moveToPopup(e) {
-    // BUGFIX: When we click on a property before the map has loaded, we get an error. But there is an easy fix:
+
     if (!this.#map) return;
 
-    const propertyEl = e.target.closest('.property');
+    const workoutEl = e.target.closest('.workout');
 
-    if (!propertyEl) return;
+    if (!workoutEl) return;
 
-    const property = this.#propertys.find(
-      work => work.id === propertyEl.dataset.id
+    const workout = this.#workouts.find(
+      work => work.id === workoutEl.dataset.id
     );
 
-    this.#map.setView(property.coords, this.#mapZoomLevel, {
+    this.#map.setView(workout.coords, this.#mapZoomLevel, {
       animate: true,
       pan: {
-        cost: 1,
+        duration: 1,
       },
     });
-
-    // using the public interface
-    // property.click();
+   
   }
 
   _setLocalStorage() {
